@@ -1,39 +1,35 @@
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const input = fs.readFileSync(filePath).toString().trim().split("\n");
+let input = fs.readFileSync(filePath).toString().trim().split("\n");
 
-function Tree(content) {
-  const tree = {};
+const num = Number(input[0]);
+const lines = Number(input[1]);
 
-  for (let i = 0; i < content.length; i++) {
-    const [a, b] = content[i].split(" ").map(Number);
+const cons = input.splice(2);
+const graph = {};
 
-    if (!tree[a]) tree[a] = [];
-    if (!tree[b]) tree[b] = [];
-
-    tree[a].push(b);
-    tree[b].push(a);
-  }
-  return tree;
+for (let i = 1; i <= num; i++) {
+  graph[i] = [];
 }
 
-function Virous(tree) {
-  let queue = [1];
-  let visited = new Set();
-  visited.add(1);
+for (let i = 0; i < lines; i++) {
+  const [v, w] = cons[i].split(" ").map(Number);
 
-  while (queue.length > 0) {
-    const node = Number(queue.shift());
+  graph[v].push(w);
+  graph[w].push(v);
+}
+const visited = Array(num + 1).fill(false);
+function dfs(node) {
+  visited[node] = true;
+  let count = 1;
 
-    for (let i of tree[node] || []) {
-      if (!visited.has(i)) {
-        queue.push(i);
-        visited.add(i);
-      }
+  for (let next of graph[node]) {
+    if (!visited[next]) {
+      count += dfs(next);
     }
   }
-  return visited.size - 1;
+
+  return count;
 }
 
-const tree = Tree(input.splice(2));
-console.log(Virous(tree));
+console.log(dfs(1) - 1);
