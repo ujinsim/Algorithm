@@ -4,13 +4,13 @@ function solution(progresses, speeds) {
     while (progresses.length) {
         progresses = progresses.map((p, i) => p + speeds[i]);
         let count = 0
-        
-        while(progresses[0]>=100 && progresses.length) {
+        console.log( progresses)
+        while(progresses[0]>=100) {
             progresses.shift()
             speeds.shift()
             count++;
         }
-        if(count > 0){
+        if(count != 0){
             answer.push(count)
         }
     }
