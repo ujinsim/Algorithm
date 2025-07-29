@@ -1,17 +1,18 @@
 function solution(arr1, arr2) {
-  const answer = [];
-
-  for (let i = 0; i < arr1.length; i++) {
-    const row = [];
-    for (let j = 0; j < arr2[0].length; j++) {
-      let sum = 0;
-      for (let k = 0; k < arr2.length; k++) {
-        sum += arr1[i][k] * arr2[k][j];
+    
+    const result = []
+    
+  for(let i=0; i<arr1.length; i++){
+     const sum = []
+      for(let j=0; j<arr2[1].length; j++){
+           let value = 0
+          for(let l=0; l<arr2.length; l++){
+              value+=arr1[i][l]*arr2[l][j]
+          }
+                sum.push(value)
       }
-      row.push(sum);
-    }
-    answer.push(row);
+result.push(sum)
   }
-
-  return answer;
+   
+   return result
 }
