@@ -4,13 +4,13 @@ function solution(brown, yellow) {
       const innerH = i;
       const innerW = yellow / i;
 
-      const H = innerH + 2; 
-      const W = innerW + 2; 
-
-      const brownNeeded = 2 * (W + H) - 4;
-      if (brownNeeded === brown) {
-        return [W, H];
-      }
+      const h = innerH + 2
+      const w = innerW + 2
+      
+      const brownWidth = (h*w) - yellow
+      if(brownWidth == brown){
+          return h>w ? [h,w] : [w,h]
+}
     }
   }
   return [];
