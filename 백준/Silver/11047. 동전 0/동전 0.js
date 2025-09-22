@@ -1,19 +1,17 @@
-const input = require("fs").readFileSync("/dev/stdin").toString().trim();
+const fs = require("fs");
+const input = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
 
-function solution(input) {
-  const values = input.split(`\n`)
-  let [num, won] = values[0].split(" ").map(Number)
-  const counts = values.splice(1).map(Number).sort((a,b)=>b-a)
-  
-  let count = 0
-  for(i of counts){
-    while(won >= i) {
-        won -= i
-        count +=1
-    }
+const [n, won] = input[0].split(" ").map(Number);
+const coins = input.slice(1).map(Number);
+
+let money = won;
+let result = 0;
+
+for (let i = n - 1; i >= 0; i--) {
+  if (coins[i] <= money) {
+    result += Math.floor(money / coins[i]);
+    money %= coins[i];
   }
-  
- return count
 }
 
-console.log(solution(input));
+console.log(result);
