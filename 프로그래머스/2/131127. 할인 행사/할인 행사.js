@@ -1,29 +1,34 @@
 function solution(want, number, discount) {
-  const wantIndex = new Map();
-  const target = new Array(want.length).fill(0);
-  let result = 0;
-
-  want.forEach((item, idx) => wantIndex.set(item, idx));
-
-
-  for (let i = 0; i < 10; i++) {
-    const idx = wantIndex.get(discount[i]);
-    if (idx !== undefined) target[idx]++;
-  }
-
-  const isMatch = () => target.every((cnt, i) => cnt === number[i]);
-  if (isMatch()) result++;
-
-
-  for (let i = 10; i < discount.length; i++) {
-    const out = wantIndex.get(discount[i - 10]);
-    if (out !== undefined) target[out]--;
+    let count = 0;
     
-    const inn = wantIndex.get(discount[i]);
-    if (inn !== undefined) target[inn]++;
+    const want_num = new Map()
     
-    if (isMatch()) result++;
-  }
+    for(let i=0; i<want.length; i++){
+        want_num.set(want[i], number[i])
+    }
+    
+    for(let i=0; i<discount.length-9; i++){
+        let currentWindow = new Map();
+        for(let j=i; j<10+i; j++){
+            const item = discount[j]
+            currentWindow.set(item,(currentWindow.get(item) || 0) + 1)
+            
+            if (isMatch(want_num, currentWindow)){
+                count ++ ;
+            }
+            
+        }
+    }
+        return count
+    
+    function isMatch(want_num, currentWindow){
+        for(let [item, qty] of want_num){
+            if ((currentWindow.get(item) || 0) < qty) {
+        return false;
+      }
+        }
+        return true
+        
+    }
 
-  return result;
 }
