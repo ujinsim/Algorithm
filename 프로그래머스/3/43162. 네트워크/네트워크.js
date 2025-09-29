@@ -1,24 +1,27 @@
 function solution(n, computers) {
-    const isVisited = new Array(n).fill(0);
+    let isVisitedCount = 0
+    const visitedValue = new Set()
     let result = 0;
-
-    for (let i = 0; i < n; i++) {
-        if (isVisited[i] === 0) {  // 방문 안 했으면 새로운 네트워크 시작
-            const stack = [i];
-            isVisited[i] = 1;
-            result++;
-            while (stack.length > 0) {
-                const current = stack.pop();
-                const connections = computers[current];
-                for (let j = 0; j < connections.length; j++) {
-                    if (isVisited[j] === 0 && connections[j] === 1) {
-                        stack.push(j);
-                        isVisited[j] = 1;
-                    }
-                }
+    
+    function dfs(node){
+        if(isVisitedCount == n){
+            return result
+        }
+        visitedValue.add(node)
+        isVisitedCount++
+        for(let i=0; i<n; i++){
+            if(i!==node && computers[node][i] === 1 && !visitedValue.has(i)){ 
+                dfs(i)
             }
-            
+        }
+    } 
+
+    for(let i=0; i<computers.length; i++){
+        if(!visitedValue.has(i)){ 
+            result ++ 
+            dfs(i)
         }
     }
-    return result;
-}
+    return result
+
+} 
