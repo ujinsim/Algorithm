@@ -1,34 +1,41 @@
 function solution(begin, target, words) {
-    let visited = new Array(words.length).fill(false);
-    let queue = [begin];
-    let count = 0;
-
-    while (queue.length) {
-        let size = queue.length; 
-
-        for (let i = 0; i < size; i++) {
-            let word = queue.shift();
-
-            if (word === target) return count;
-
-            for (let j = 0; j < words.length; j++) {
-                if (!visited[j] && isOneLetterDiff(word, words[j])) {
-                    visited[j] = true;
-                    queue.push(words[j]);
-                }
-            }
+ const queue = [[begin,0]]
+ let result = 0
+ const isVisited = new Set([begin])
+    
+ // words에 없으면 return 0 
+ // target과 같으면 반환 
+     
+ // begin을 받고 한글자만 차이나는지 검사하고, 방문했는지 확인하고 bfs돌리기
+ if(!words.includes(target)){
+     return result
+ }
+    
+function isDifferCon(k,v){
+    let count = 0
+    for(let i=0; i<k.length; i++){
+        if(k[i] !== v[i]){
+            count ++
         }
-
-        count++; 
     }
-
-    return 0;
+    return count === 1
 }
 
-function isOneLetterDiff(a, b) {
-    let diff = 0;
-    for (let i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) diff++;
-    }
-    return diff === 1;
+ while(queue.length > 0){
+   const [value,steps] = queue.shift()
+   if(value == target){
+       return steps
+}  
+     
+   for(let i=0; i<words.length; i++){
+       const nextWord = words[i];
+       if(!isVisited.has(nextWord) &&isDifferCon(nextWord, value)){
+
+           isVisited.add(nextWord)
+           queue.push([words[i],steps+1])
+           
+       }
+   }
+ }
+ return 0
 }
