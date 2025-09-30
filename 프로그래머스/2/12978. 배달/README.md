@@ -1,10 +1,10 @@
 # [level 2] 배달 - 12978 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12978) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12978?gad_source=1&gad_campaignid=22356298761&gbraid=0AAAAAC_c4nD5xisQUcD_LPFG-ZrnFgC3S&gclid=Cj0KCQjw3OjGBhDYARIsADd-uX6fzGHTq_3FAUe1EqLAMYbfbfr0pwcXtJSa3lXqgvGc0yi3RXS6icoaAjVvEALw_wcB) 
 
 ### 성능 요약
 
-메모리: 34 MB, 시간: 1.56 ms
+메모리: 35 MB, 시간: 3.53 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 08월 13일 17:32:24
+2025년 09월 30일 13:45:09
 
 ### 문제 설명
 
