@@ -1,8 +1,11 @@
 function solution(strings, n) {
-  return strings.sort((a, b) => {
-    if (a[n] === b[n]) {
-      return a.localeCompare(b); //  전체 단어 사전순
-    }
-    return a[n].localeCompare(b[n]); 
-  });
-}
+    strings.sort((a, b) => {
+      if (a[n] > b[n]) return 1;
+
+      else if (a[n] < b[n]) return -1;
+ 
+      else return a > b ? 1 : -1;
+    });
+    
+    return  strings
+  }
