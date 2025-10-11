@@ -1,6 +1,6 @@
 function solution(maps) {
     const n = maps.length;
-  const m = maps[0].length;
+    const m = maps[0].length;
     const dx = [1,-1,0,0]
     const dy = [0,0,1,-1]
     
@@ -8,7 +8,6 @@ function solution(maps) {
     
     for(let i=0; i<maps.length; i++){
         for(let j=0; j<m; j++){
-            console.log(maps[i][j])
             if(maps[i][j] == "S") S = [i,j]
             if(maps[i][j] == "L") L = [i,j]
             if(maps[i][j] == "E") E = [i,j]
@@ -40,7 +39,6 @@ function solution(maps) {
             
         }
         return -1
- 
  
     }
      const toLever = bfs(S, "L");
