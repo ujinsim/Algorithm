@@ -7,28 +7,22 @@ function solution(input) {
   const m = Number(parsedInput[1]);
   const p = parsedInput[2];
 
-  const P1 = "IOI";
-  const PS = "OI";
-  const PN = P1 + PS.repeat(n - 1);
-
   let result = 0;
+  let currentIndex = 0;
+  let cnt = 0; 
 
-  for (let i = 0; i <= p.length - PN.length; i++) {
-    let currentNum = 0;
-    let ok = true;
+  while (currentIndex < p.length - 2) {
+    if (p[currentIndex] === 'I' && p.slice(currentIndex, currentIndex + 3) === 'IOI') {
+      currentIndex += 2;
+      cnt += 1;
 
-    for (let j = 0; j < PN.length; j++) {
-      const current = PN[currentNum];
-      if (p[i + j] === current) {
-        currentNum++;
-      } else {
-        ok = false;
-        break;
+      if (cnt === n) {
+        result += 1;
+        cnt -= 1; 
       }
-    }
-
-    if (ok && currentNum === PN.length) {
-      result += 1;
+    } else {
+      currentIndex += 1;
+      cnt = 0;
     }
   }
 
