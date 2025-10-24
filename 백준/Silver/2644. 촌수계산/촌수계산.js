@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const parsedInput = fs.readFileSync(0, 'utf8').trim().split('\n');
 
@@ -7,10 +8,7 @@ const m = Number(parsedInput[2]);
 const arrs = parsedInput.slice(3).map((a) => a.split(' ').map(Number));
 
 const tree = new Map();
-const isVisited = new Array(n + 1).fill(false);
-const dist = new Array(n + 1).fill(0);
-
-for (let i = 0; i < arrs.length; i++) {
+for (let i = 0; i < m; i++) {
   const [u, v] = arrs[i];
   if (!tree.has(u)) tree.set(u, []);
   if (!tree.has(v)) tree.set(v, []);
@@ -18,30 +16,24 @@ for (let i = 0; i < arrs.length; i++) {
   tree.get(v).push(u);
 }
 
-const queue = [p];
-let head = 0;
-isVisited[p] = true;
-dist[p] = 0;
-
+const visited = new Array(n + 1).fill(false);
 let answer = -1;
 
-while (head < queue.length) {
-  const value = queue[head++];
+function dfs(node, depth) {
+  visited[node] = true;
 
-  if (value === b) {
-    answer = dist[value];
-    break;
+  if (node === b) {
+    answer = depth;
+    return;
   }
 
-  const neighbors = tree.get(value) || [];
-  for (let i = 0; i < neighbors.length; i++) {
-    const next = neighbors[i];
-    if (!isVisited[next]) {
-      isVisited[next] = true;
-      dist[next] = dist[value] + 1;
-      queue.push(next);
+  const neighbors = tree.get(node) || [];
+  for (const next of neighbors) {
+    if (!visited[next]) {
+      dfs(next, depth + 1);
     }
   }
 }
 
+dfs(p, 0);
 console.log(answer);
