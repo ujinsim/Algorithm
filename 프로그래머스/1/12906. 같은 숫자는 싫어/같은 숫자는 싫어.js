@@ -1,16 +1,11 @@
-function solution(arr)
-{
-    var answer = [];
-    var number; 
-     for (let i = 0; i < arr.length; i++) {
-        if(number!==arr[i]){
-            answer.push(arr[i])
-            number = arr[i];
-        }
-        
-        
-        
-}
+function solution(arr){
+    const newArr = [arr[0]]
     
-    return answer;
+    for(let i=1; i<arr.length; i++){
+        if(newArr[newArr.length-1] !== arr[i]){
+            newArr.push(arr[i])
+        }
+    }
+    
+    return newArr
 }
