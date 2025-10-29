@@ -1,41 +1,45 @@
-function solution(begin, target, words) {
- const queue = [[begin,0]]
- let result = 0
- const isVisited = new Set([begin])
+function solution(begin, target, words){
+  //가장 짧은 변환 과정
+  let n = words.length
+  let result = 0
+  
+  if(!words.includes(target)){
+    return result
+  }
+  
+  const visited = new Set([begin])
+  const queue = [[begin,0]]
+  
+  function differWords(s,v){
+    let differ = 0
     
- // words에 없으면 return 0 
- // target과 같으면 반환 
-     
- // begin을 받고 한글자만 차이나는지 검사하고, 방문했는지 확인하고 bfs돌리기
- if(!words.includes(target)){
-     return result
- }
-    
-function isDifferCon(k,v){
-    let count = 0
-    for(let i=0; i<k.length; i++){
-        if(k[i] !== v[i]){
-            count ++
-        }
+    for(let i=0; i<s.length; i++){
+      if(s[i] != v[i]){
+        differ +=1
+      }
     }
-    return count === 1
-}
+    return differ
+  }
+  
 
- while(queue.length > 0){
-   const [value,steps] = queue.shift()
-   if(value == target){
-       return steps
-}  
-     
-   for(let i=0; i<words.length; i++){
-       const nextWord = words[i];
-       if(!isVisited.has(nextWord) &&isDifferCon(nextWord, value)){
+    while(queue.length > 0){
+      const [value,count] = queue.shift()
+      
+      if(value === target){
+        return count
+      }
+      for(let i=0; i<n; i++){
+      const next = words[i]
+      if(!visited[i] && differWords(value,next) === 1){
+         visited[i] = true
+         queue.push([next, count+1])
+         }
+    }
+      
+    }
+  return 0
+  
 
-           isVisited.add(nextWord)
-           queue.push([words[i],steps+1])
-           
-       }
-   }
- }
- return 0
+  
+
 }
