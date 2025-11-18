@@ -1,15 +1,24 @@
-function solution(participant, completion) {
-    const hash = {}
-    const result = []
+function solution(participant, completion){
+    const map = new Map()
     
-    for (i of completion) {
-        hash[i] = (hash[i] || 0) + 1;
+    for(let i=0; i<participant.length; i++){
+        if(!map.has(participant[i])){
+            map.set(participant[i],1)
+        }
+       else{
+         map.set(participant[i],map.get(participant[i])+1)
+       }
     }
-    
-    for (j of participant){
-        if (!hash[j]) return j; // 없거나 0이면 그 사람이 미완주자
-    hash[j] -= 1;
+  
+    for(let i=0; i<completion.length; i++){
+       map.set(completion[i],map.get(completion[i])-1)
     }
-    
-    return result.join(" ");
+  
+    for (let [key,count] of map){
+      if(map.get(key) >= 1){
+        return key
+      }
+    }
+
 }
+
