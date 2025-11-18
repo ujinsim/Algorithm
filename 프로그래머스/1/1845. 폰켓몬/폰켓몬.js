@@ -1,11 +1,18 @@
 function solution(nums) {
+    const n = nums.length
+    const set = new Set()
     
-    //최대를 n/2개로 두고 
-    // set으로 해서 그거를 우선순위로 최대보다 작으면 2 최대보다 크면 최대
+    for(let i=0; i<nums.length; i++){
+        set.add(nums[i])
+    }
     
-    const max = nums.length/2
-    const k = new Set([...nums])
-    const kLength =[...k].length
     
-    return kLength < max ? kLength : max
+    if(set.size <= n/2){
+        return set.size
+    }
+    else {
+        return n/2
+    }
+    
+    
 }
