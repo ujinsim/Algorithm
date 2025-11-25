@@ -1,38 +1,33 @@
-function solution(maps) {
-  const n = maps.length;
-  const m = maps[0].length;
+function solution(maps){
+  const n = maps.length
+  const m = maps[0].length 
   
-  const dx = [1, -1, 0, 0];
-  const dy = [0, 0, 1, -1];
+  const visited = Array.from({length:n}, ()=>new Array(m).fill(false))
+  const queue = []
   
-  const visited = Array.from({ length: n }, () => Array(m).fill(false));
-  const queue = [];
+  const nx = [1,-1,0,0]
+  const ny = [0,0,1,-1]
   
-  queue.push([0, 0, 1]);
-  visited[0][0] = true;
+  queue.push([0,0,1])
+  visited[0][0] = true
   
-  while (queue.length > 0) {
-    const [x, y, dist] = queue.shift();
-    
-    if (x === n - 1 && y === m - 1) {
-      return dist;
-    }
-    
-    for (let i = 0; i < 4; i++) {
-      const nx = x + dx[i];
-      const ny = y + dy[i];
-      
-      if (
-        nx >= 0 && nx < n &&
-        ny >= 0 && ny < m &&
-        !visited[nx][ny] &&
-        maps[nx][ny] === 1
-      ) {
-        visited[nx][ny] = true;
-        queue.push([nx, ny, dist + 1]);
-      }
-    }
-  }
+  while(queue.length > 0){
+      const [x,y,count] = queue.shift()
 
-  return -1;
+      if(x == n-1 && y == m-1){
+          return count 
+      }
+      
+      for(let i=0; i<4; i++){
+          const dx = nx[i] + x
+          const dy = ny[i] + y
+          
+          if(dx >= 0 && dx <n && dy>= 0 && dy<m && !visited[dx][dy] && maps[dx][dy] == 1){
+              visited[dx][dy] = true
+              queue.push([dx,dy,count+1])
+          }
+      }
+  }
+    return -1 
+
 }
