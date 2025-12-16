@@ -1,5 +1,3 @@
-select book_id, date_format(published_date,'%Y-%m-%d') as published_date
-from book
-where date_format(published_date,"%Y") = '2021'
-    and category = '인문'
-order by published_date
+select b.book_id, date_format(b.published_date, "%Y-%m-%d") as publiched_date
+from book as b
+where date_format(b.published_date, "%Y") = '2021' and b.category = '인문' 
