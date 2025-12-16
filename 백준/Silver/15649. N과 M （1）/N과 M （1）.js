@@ -1,22 +1,31 @@
-const fs = require("fs");
-const input = fs.readFileSync(0, "utf8").toString().trim();
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
+
+
 const [n, m] = input.split(" ").map(Number);
 
-let result = [];
+const dist = [];
+const result = [];
+const visited = new Array(n).fill(false);
 
-function backtrack(value) {
-  if (value.length === m) {
-    result.push(value.join(" "));
+function backtrack(depth) {
+  if (depth === m) {
+    result.push(dist.join(" ")); 
     return;
   }
-
-  for (let i = 1; i <= n; i++) {
-    if (!value.includes(i)) {
-      backtrack(value.concat(i));
+  
+  for (let i = 0; i < n; i++) {
+    if (!visited[i]) {
+      visited[i] = true;
+      dist.push(i + 1);
+      backtrack(depth + 1);
+      dist.pop();
+      visited[i] = false; 
     }
   }
 }
 
-backtrack([]);
+backtrack(0);
 
 console.log(result.join("\n"));
