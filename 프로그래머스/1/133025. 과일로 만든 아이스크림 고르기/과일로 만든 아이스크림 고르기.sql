@@ -1,6 +1,5 @@
-SELECT FIRST_HALF.FLAVOR
-FROM FIRST_HALF, ICECREAM_INFO
-WHERE FIRST_HALF.FLAVOR = ICECREAM_INFO.FLAVOR
-  AND FIRST_HALF.TOTAL_ORDER > 3000
-  AND ICECREAM_INFO.INGREDIENT_TYPE = 'fruit_based'
-ORDER BY FIRST_HALF.TOTAL_ORDER DESC;
+select f.flavor
+from first_half as f
+join icecream_info as i on i.flavor = f.flavor
+where i.ingredient_type = 'fruit_based' and f.total_order >= 3000
+order by f.total_order desc
