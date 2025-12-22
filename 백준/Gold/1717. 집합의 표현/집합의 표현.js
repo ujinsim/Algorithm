@@ -4,7 +4,6 @@ const input = fs.readFileSync(0, 'utf-8').trim().split('\n');
 const [n, m] = input[0].split(' ').map(Number);
 const p = Array.from({ length: n + 1 }, (_, i) => i);
 
-// 가져오신 재귀형 Find (경로 압축 포함)
 const find = (a) => {
   if (p[a] !== a) {
     p[a] = find(p[a]);
