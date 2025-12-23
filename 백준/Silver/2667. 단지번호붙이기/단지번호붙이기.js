@@ -1,42 +1,53 @@
-
 const fs = require('fs');
-const input = fs.readFileSync(0, 'utf8').trim().split('\n');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
-const n = Number(input[0]);
-const board = input.slice(1).map(line => line.trim().split('').map(Number));
-const visited = Array.from({ length: n }, () => Array(n).fill(false));
+function solution(input) {
+  //1은 집이 있는 곳을, 0은 집이 없는 곳
 
-const dx = [1, -1, 0, 0];
-const dy = [0, 0, 1, -1];
+  const parseInput = input.split(`\n`);
+  const n = Number(parseInput[0]);
+  const arr = parseInput.slice(1).map(a => a.split('').map(Number));
+  const visited = Array.from({ length: n }, () => new Array(n).fill(false));
 
-const inRange = (x, y) => x >= 0 && y >= 0 && x < n && y < n;
+  let dist = 0;
+  const results = [];
+  const dx = [1, -1, 0, 0];
+  const dy = [0, 0, 1, -1];
 
-function dfs(x, y) {
-  visited[x][y] = true;
-  let size = 1;
-  for (let i = 0; i < 4; i++) {
-    const nx = x + dx[i];
-    const ny = y + dy[i];
-    if (
-      inRange(nx, ny) &&
-      !visited[nx][ny] &&
-      board[nx][ny] === 1
-    ) {
-      size += dfs(nx, ny);
+  function dfs(x, y) {
+    visited[x][y] = true;
+    dist += 1;
+
+    for (let i = 0; i < 4; i++) {
+      const nx = x + dx[i];
+      const ny = y + dy[i];
+
+      if (
+        nx >= 0 &&
+        nx < n &&
+        ny >= 0 &&
+        ny < n &&
+        !visited[nx][ny] &&
+        arr[nx][ny] == 1
+      ) {
+        dfs(nx, ny);
+      }
+    }
+    return dist;
+  }
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      dist = 0;
+      if (arr[i][j] == 1 && visited[i][j] == false) {
+        const result = dfs(i, j);
+        results.push(result);
+      }
     }
   }
-  return size;
+
+  return results.length + '\n' + results.sort((a, b) => a - b).join('\n');
 }
 
-const sizes = [];
-for (let i = 0; i < n; i++) {
-  for (let j = 0; j < n; j++) {
-    if (board[i][j] === 1 && !visited[i][j]) {
-      sizes.push(dfs(i, j));
-    }
-  }
-}
-
-sizes.sort((a, b) => a - b);
-console.log(sizes.length);
-console.log(sizes.join('\n'));
+console.log(solution(input));
