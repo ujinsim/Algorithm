@@ -9,42 +9,45 @@ function solution(input) {
 
   if (n === 1) return arr.map(a => a.join('')).join('\n');
 
-  if (n % 2 === 0) {
-    const full = Array.from({ length: r }, () => new Array(c).fill('O'));
-    return full.map(a => a.join('')).join('\n');
+  if (n % 2 == 0) {
+    return Array.from({ length: r }, () => new Array(c).fill('O'))
+      .map(a => a.join(''))
+      .join('\n');
   }
 
-  const explode = (inputBoard) => {
-    const newBoard = Array.from({ length: r }, () => new Array(c).fill('O'));
-    const dx = [1, -1, 0, 0];
-    const dy = [0, 0, 1, -1];
+  const nx = [1, -1, 0, 0];
+  const ny = [0, 0, 1, -1];
 
+  function boom(arr) {
+    const fillArr = Array.from({ length: r }, () => new Array(c).fill('O'));
     for (let i = 0; i < r; i++) {
       for (let j = 0; j < c; j++) {
-        if (inputBoard[i][j] === 'O') {
-          newBoard[i][j] = '.';
+        if (arr[i][j] == 'O') {
+          fillArr[i][j] = '.';
           for (let k = 0; k < 4; k++) {
-            const nx = i + dx[k];
-            const ny = j + dy[k];
-            if (nx >= 0 && nx < r && ny >= 0 && ny < c) {
-              newBoard[nx][ny] = '.';
+            const dx = i + nx[k];
+            const dy = j + ny[k];
+            if (dx >= 0 && dx < r && dy >= 0 && dy < c) {
+              fillArr[dx][dy] = '.';
             }
           }
         }
       }
     }
-    return newBoard;
-  };
-
-  const state3 = explode(arr);
-
-  if (n % 4 === 3) {
-    return state3.map(a => a.join('')).join('\n');
+    return fillArr;
   }
 
-  if (n % 4 === 1) {
-    const state5 = explode(state3);
-    return state5.map(a => a.join('')).join('\n');
+  if (n % 4 == 3) {
+    return boom(arr)
+      .map(a => a.join(''))
+      .join('\n');
+  }
+
+  if (n % 4 == 1) {
+    // 7
+    return boom(boom(arr))
+      .map(a => a.join(''))
+      .join('\n');
   }
 }
 
