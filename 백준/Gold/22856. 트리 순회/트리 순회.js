@@ -1,33 +1,54 @@
 const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
 function solution(input) {
-  const n = Number(input[0]);
-  const tree = new Map();
-  const parentMap = new Map();
+  const parseInput = input.split(`\n`);
+  if (!parseInput[0]) return 0;
 
-  for (let i = 1; i <= n; i++) {
-    const [node, left, right] = input[i].split(' ').map(Number);
-    tree.set(node, { left, right });
-    if (left !== -1) parentMap.set(left, node);
-    if (right !== -1) parentMap.set(right, node);
+  const nums = parseInput.slice(1).map(a => a.split(' ').map(Number));
+  const map = new Map();
+
+  for (let i = 0; i < nums.length; i++) {
+    const [node, left, right] = nums[i];
+    map.set(node, { left, right });
   }
 
   let lastNode = 1;
   while (true) {
-    const { right } = tree.get(lastNode);
-    if (right === -1) break;
-    lastNode = right;
+    const node = map.get(lastNode);
+    if (!node || node.right === -1) break;
+    lastNode = node.right;
   }
 
-  let pathDist = 0;
-  let temp = lastNode;
-  while (temp !== 1) {
-    temp = parentMap.get(temp);
-    pathDist++;
+  let count = 0;
+  let isFinished = false;
+
+  function dfs(node) {
+    const { left, right } = map.get(node);
+
+    if (left !== -1) {
+      count++;
+      dfs(left);
+      if (isFinished) return;
+      count++;
+    }
+
+    if (node === lastNode) {
+      isFinished = true;
+      return;
+    }
+
+    if (right !== -1) {
+      count++;
+      dfs(right);
+      if (isFinished) return;
+      count++;
+    }
   }
 
-  return (n - 1) * 2 - pathDist;
+  dfs(1);
+  return count;
 }
 
 console.log(solution(input));
