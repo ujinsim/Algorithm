@@ -2,17 +2,24 @@ const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
 const input = fs.readFileSync(filePath).toString().trim();
 
-function Result(num) {
-  let queue = Array.from({ length: num }, (_, i) => i + 1);
-  let index = 0;
 
-  while (queue.length - index > 1) {
-    index++;
-    queue.push(queue[index]);
-    index++;
-  }
+function solution(input){
+    const cards = Array.from({length:input}, (_,idx)=> idx+1)
+    let front = 0
 
-  return queue[index];
+    while(cards.length - front > 1){
+        //버리기
+        front +=1
+        
+        //보내기
+        
+        cards.push(cards[front])
+        front+=1
+    }
+
+    return cards[front]
 }
 
-console.log(Result(Number(input)));
+
+
+console.log(solution(input))
