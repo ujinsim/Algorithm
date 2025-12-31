@@ -1,2 +1,2 @@
-select count(animal_id) as count 
+select count(*) as count
 from animal_ins
