@@ -1,48 +1,51 @@
-const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const input = fs.readFileSync(filePath).toString().trim().split("\n");
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
-const queueState = (commands) => {
-  const queue = [];
-  const result = [];
+function solution(input) {
+  const parseInput = input.split('\n');
+  const orders = parseInput.slice(1);
 
-  for (const command of commands) {
-    const [com, numStr] = command.split(" ");
-    const num = Number(numStr);
+  let queue = [];
+  let head = 0;
+  let tail = 0;
+  let result = [];
 
-    switch (com) {
-      case "push":
-        queue.push(num);
+  for (let i = 0; i < orders.length; i++) {
+    const line = orders[i].split(' ');
+    const order = line[0];
 
-        break;
-
-      case "pop":
-        result.push(queue.length === 0 ? -1 : queue.shift());
-
-        break;
-
-      case "size":
-        result.push(queue.length);
-
-        break;
-
-      case "empty":
-        result.push(queue.length === 0 ? 1 : 0);
-
-        break;
-
-      case "front":
-        result.push(queue.length === 0 ? -1 : queue[0]);
-
-        break;
-      case "back":
-        result.push(queue.length === 0 ? -1 : queue[queue.length - 1]);
-
-        break;
+    if (order === 'push') {
+      const num = line[1];
+      queue[tail] = num;
+      tail++;
+    } else if (order === 'pop') {
+      if (tail == head) {
+        result.push(-1);
+      } else {
+        result.push(queue[head]);
+        head += 1;
+      }
+    } else if (order === 'size') {
+      result.push(tail - head);
+    } else if (order === 'empty') {
+      result.push(head === tail ? 1 : 0);
+    } else if (order === 'front') {
+      if (tail == head) {
+        result.push(-1);
+      } else {
+        result.push(queue[head]);
+      }
+    } else if (order === 'back') {
+      if (tail == head) {
+        result.push(-1);
+      } else {
+        result.push(queue[tail - 1]);
+      }
     }
   }
 
-  console.log(result.join("\n"));
-};
+  return result.join('\n');
+}
 
-queueState(input.slice(1));
+console.log(solution(input));
