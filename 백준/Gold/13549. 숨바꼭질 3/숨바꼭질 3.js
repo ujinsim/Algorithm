@@ -21,7 +21,7 @@ function solution(input){
 
       if(current * 2 <= 100000 && time[current * 2] > count){
         time[current * 2] = count; 
-        queue.unshift([current * 2, count]);
+        queue.push([current * 2, count]);
       }
       
       if(current + 1 <= 100000 && time[current + 1] > count + 1){
