@@ -2,77 +2,84 @@ const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 const input = fs.readFileSync(filePath).toString().trim();
 
-function solution(k) {
-  const parseInput = k.split(`\n`);
+function solution(input) {
+  const parseInput = input.split(`\n`);
   const [R, C] = parseInput[0].split(' ').map(Number);
   const map = parseInput.slice(1).map(a => a.split(''));
 
   const dx = [1, 0, -1, 0];
   const dy = [0, 1, 0, -1];
 
-  let startX = 0;
-  let startY = 0;
-
-  const fireDist = Array.from(Array(R), () => Array(C).fill(-1));
+  const fireArr = Array.from({ length: R }, () => new Array(C).fill(Infinity));
   const fireQueue = [];
-  const queue = [];
+  const fireVisited = Array.from({ length: R }, () => new Array(C).fill(false));
+
+  const jihoonArr = Array.from({ length: R }, () => new Array(C).fill(-1));
+  const jihoonQueue = [];
+  const jihoonVisited = Array.from({ length: R }, () =>
+    new Array(C).fill(false)
+  );
+  let jihoonHead = 0;
 
   for (let i = 0; i < R; i++) {
     for (let j = 0; j < C; j++) {
-      if (map[i][j] === 'F') {
+      if (map[i][j] == 'F') {
+        fireArr[i][j] = 0;
+        fireVisited[i][j] = true;
         fireQueue.push([i, j]);
-        fireDist[i][j] = 0;
       }
       if (map[i][j] == 'J') {
-        startX = i;
-        startY = j;
+        jihoonVisited[i][j] = true;
+        jihoonQueue.push([i, j]);
+        jihoonArr[i][j] = 0;
       }
     }
   }
 
-  let head = 0;
-  while (head < fireQueue.length) {
-    const [currX, currY] = fireQueue[head++];
+  let fireHead = 0;
+  while (fireQueue.length > fireHead) {
+    const [x, y] = fireQueue[fireHead++];
 
     for (let i = 0; i < 4; i++) {
-      const nx = currX + dx[i];
-      const ny = currY + dy[i];
+      const nx = x + dx[i];
+      const ny = y + dy[i];
+
+      if (
+        nx >= 0 &&
+        nx < R &&
+        ny >= 0 &&
+        ny < C &&
+        map[nx][ny] !== '#' &&
+        !fireVisited[nx][ny]
+      ) {
+        fireVisited[nx][ny] = true;
+        fireArr[nx][ny] = fireArr[x][y] + 1;
+        fireQueue.push([nx, ny]);
+      }
+    }
+  }
+
+  while (jihoonQueue.length > jihoonHead) {
+    const [x, y] = jihoonQueue[jihoonHead++];
+
+    for (let i = 0; i < 4; i++) {
+      const nx = x + dx[i];
+      const ny = y + dy[i];
+
+      if (nx < 0 || nx >= R || ny < 0 || ny >= C) {
+        return jihoonArr[x][y] + 1;
+      }
 
       if (nx >= 0 && nx < R && ny >= 0 && ny < C) {
-        if (map[nx][ny] !== '#' && fireDist[nx][ny] === -1) {
-          fireDist[nx][ny] = fireDist[currX][currY] + 1;
-          fireQueue.push([nx, ny]);
-        }
-      }
-    }
-  }
-
-  let jihoonDist = Array.from(Array(R), () => Array(C).fill(-1));
-  let jihoonHead = 0;
-  queue.push([startX, startY]);
-  jihoonDist[startX][startY] = 0;
-
-  while (jihoonHead < queue.length) {
-    const [currX, currY] = queue[jihoonHead++];
-
-    for (let i = 0; i < 4; i++) {
-      const nx = currX + dx[i];
-      const ny = currY + dy[i];
-
-      //끝이다
-      if (nx < 0 || nx >= R || ny < 0 || ny >= C) {
-        return jihoonDist[currX][currY] + 1;
-      }
-
-      if (map[nx][ny] === '.' && jihoonDist[nx][ny] === -1) {
-        if (nx >= 0 && nx < R && ny >= 0 && ny < C) {
-          if (
-            fireDist[nx][ny] === -1 ||
-            jihoonDist[currX][currY] + 1 < fireDist[nx][ny]
-          ) {
-            jihoonDist[nx][ny] = jihoonDist[currX][currY] + 1;
-            queue.push([nx, ny]);
-          }
+        if (
+          jihoonArr[x][y] + 1 < fireArr[nx][ny] &&
+          map[nx][ny] !== '#' &&
+          map[nx][ny] !== 'F' &&
+          !jihoonVisited[nx][ny]
+        ) {
+          jihoonVisited[nx][ny] = true;
+          jihoonArr[nx][ny] = jihoonArr[x][y] + 1;
+          jihoonQueue.push([nx, ny]);
         }
       }
     }
