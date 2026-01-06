@@ -1,41 +1,66 @@
 const fs = require('fs');
-const lines = fs.readFileSync(0, 'utf8').trim().split('\n');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
-const n = Number(lines[0]);
+function solution(input) {
+  //     1. 1번에서 가중치 제일 높은 노드 찾기
+  // 2. 그 노드와 가중치 가장 긴 노드 찾기
 
-const tree = new Map();
-for (let i = 1; i < lines.length; i++) {
-  const [a, b, w] = lines[i].split(' ').map(Number);
-  if (!tree.has(a)) tree.set(a, []);
-  if (!tree.has(b)) tree.set(b, []);
-  tree.get(a).push([b, w]);
-  tree.get(b).push([a, w]);
-}
+  const parseInput = input.split(`\n`);
+  const N = Number(parseInput[0]);
+  const nums = parseInput.slice(1).map(a => a.split(' ').map(Number));
+  const tree = new Map();
 
-if (n === 1) {
-  console.log('0');
-  process.exit(0);
-}
+  for (let i = 0; i < nums.length; i++) {
+    const [n, c, d] = nums[i];
 
-const visited = Array(n + 1).fill(false);
+    if (!tree.has(n)) tree.set(n, []);
+    tree.get(n).push([c, d]);
 
-let max = { node: 1, dist: 0 };
-
-function dfs(u, dist) {
-  visited[u] = true;
-  if (dist > max.dist) max = { node: u, dist };
-
-  const neighbors = tree.get(u) || [];
-  for (const [v, w] of neighbors) {
-    if (!visited[v]) dfs(v, dist + w);
+    if (!tree.has(c)) tree.set(c, []);
+    tree.get(c).push([n, d]);
   }
+
+  let maxCount = 0;
+  let maxNode = 0;
+
+  function dfs(node, visited, count) {
+    if (count > maxCount) {
+      maxCount = count;
+      maxNode = node;
+    }
+
+    const neighbors = tree.get(node) || [];
+
+    for (let i = 0; i < neighbors.length; i++) {
+      const [newNode, newCount] = neighbors[i];
+
+      if (!visited[newNode]) {
+        visited[newNode] = true;
+        dfs(newNode, visited, count + newCount);
+      }
+
+    }
+
+    return { maxCount, maxNode };
+  }
+
+  const firstVisited = new Array(N + 1).fill(false);
+  firstVisited[1] = true;
+  const { maxNode: firstNodeResult } = dfs(1, firstVisited, 0);
+
+  maxCount = 0;
+  maxNode = 0;
+  const secondVisited = new Array(N + 1).fill(false);
+  secondVisited[firstNodeResult] = true;
+
+  const { maxCount: resultCount, maxNode: resultNode } = dfs(
+    firstNodeResult,
+    secondVisited,
+    0
+  );
+
+  return resultCount;
 }
 
-dfs(1, 0);
-const far = max.node;
-
-visited.fill(false);
-max = { node: far, dist: 0 };
-dfs(far, 0);
-
-console.log(String(max.dist));
+console.log(solution(input));
