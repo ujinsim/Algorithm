@@ -1,38 +1,36 @@
 const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().trim();
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
-function solution(input){
-  const [N,K] = input.split(" ").map(Number)
-  
-  const time = new Array(100001).fill(Infinity);
+function solution(input) {
+  const [N, K] = input.split(' ').map(Number);
 
-  const queue = []
-  queue.push([N,0])
-  time[N] = 0; 
+  const visitedSet = new Set();
+  const queue = [];
+  visitedSet.add(N);
+  queue.push([N, 0]);
+  let head = 0;
 
-  while(queue.length){
-      const [current, count] = queue.shift()
+  while (queue.length > head) {
+    const [curr, count] = queue[head++];
 
-      if (time[current] < count) continue;
+    if (curr == K) {
+      return count;
+    }
 
-      if(current === K){
-          return count
-      }
+    if (curr * 2 <= 100000 && !visitedSet.has(curr * 2)) {
+      visitedSet.add(curr * 2);
+      queue.push([curr * 2, count]);
+    }
 
-      if(current * 2 <= 100000 && time[current * 2] > count){
-        time[current * 2] = count; 
-        queue.push([current * 2, count]);
-      }
-      
-      if(current + 1 <= 100000 && time[current + 1] > count + 1){
-        time[current + 1] = count + 1; 
-        queue.push([current + 1, count + 1]);
-      }
-      
-      if(current - 1 >= 0 && time[current - 1] > count + 1){
-        time[current - 1] = count + 1; 
-        queue.push([current - 1, count + 1]);
-      }
+    if (curr - 1 >= 0 && !visitedSet.has(curr - 1)) {
+      visitedSet.add(curr - 1);
+      queue.push([curr - 1, count + 1]);
+    }
+    if (curr + 1 <= 100000 && !visitedSet.has(curr + 1)) {
+      visitedSet.add(curr + 1);
+      queue.push([curr + 1, count + 1]);
+    }
   }
 }
 
