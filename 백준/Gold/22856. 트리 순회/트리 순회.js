@@ -15,14 +15,15 @@ function solution(input) {
   }
 
   let lastNode = 1;
+  let depth = 0;
   while (true) {
     const node = map.get(lastNode);
     if (!node || node.right === -1) break;
     lastNode = node.right;
+    depth++;
   }
 
   let count = 0;
-  let isFinished = false;
 
   function dfs(node) {
     const { left, right } = map.get(node);
@@ -30,28 +31,18 @@ function solution(input) {
     if (left !== -1) {
       count += 1;
       dfs(left);
-
       count += 1;
-    }
-
-    if (node == lastNode) {
-      isFinished = true;
-      return;
     }
 
     if (right !== -1) {
       count += 1;
       dfs(right);
-
-      if (isFinished) {
-        return count;
-      }
       count += 1;
     }
   }
   dfs(1);
 
-  return count;
+  return count - depth;
 }
 
 console.log(solution(input));
