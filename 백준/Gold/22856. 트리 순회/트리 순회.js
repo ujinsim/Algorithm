@@ -28,26 +28,29 @@ function solution(input) {
     const { left, right } = map.get(node);
 
     if (left !== -1) {
-      count++;
+      count += 1;
       dfs(left);
-      if (isFinished) return;
-      count++;
+
+      count += 1;
     }
 
-    if (node === lastNode) {
+    if (node == lastNode) {
       isFinished = true;
       return;
     }
 
     if (right !== -1) {
-      count++;
+      count += 1;
       dfs(right);
-      if (isFinished) return;
-      count++;
+
+      if (isFinished) {
+        return count;
+      }
+      count += 1;
     }
   }
-
   dfs(1);
+
   return count;
 }
 
