@@ -1,13 +1,10 @@
 const fs = require("fs");
 
 let input = fs.readFileSync("/dev/stdin").toString();
-input = input.split(" ");
+input = input.split(" ").map((e) => +e);
 
-function result(input) {
-  let result = 0;
-
-  result = input.reduce((acc, cur) => Number(acc) + Number(cur));
-  return result;
+function result(A, B) {
+  return A + B;
 }
 
-console.log(result(input));
+console.log(result(input[0], input[1]));
