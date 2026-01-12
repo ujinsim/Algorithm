@@ -7,41 +7,34 @@ function solution(input) {
   const [N, M] = parseInput[0].split(' ').map(Number);
   const nums = parseInput[1].split(' ').map(Number);
 
-  const arr = Array.from({ length: N }, (_, i) => i + 1);
+  const arr = Array.from({ length: N }, (v, i) => i + 1);
   let count = 0;
 
-  for (let i = 0; i < M; i++) {
-    const curLength = arr.length;
-    const target = nums[i];
-    let targetIdx = Infinity;
-
+  for (let i = 0; i < nums.length; i++) {
+    const n = nums[i];
+    // 어디가 가까운지
     for (let k = 0; k < arr.length; k++) {
-      if (arr[k] == target) {
-        targetIdx = k;
-      }
-    }
-
-    if (targetIdx <= curLength - targetIdx) {
-      while (arr[0] !== target) {
-        const value = arr.shift();
-        arr.push(value);
-        count += 1;
-      }
-      if (arr[0] === target) {
-        arr.shift();
-      }
-    } else {
-      while (arr[0] !== target) {
-        const value = arr.pop();
-        arr.unshift(value);
-        count += 1;
-      }
-      if (arr[0] === target) {
-        arr.shift();
+      if (n == arr[k]) {
+        if (k <= arr.length - k) {
+          // k가 앞쪽
+          while (arr[0] !== n) {
+            const v = arr.shift();
+            arr.push(v);
+            count += 1;
+          }
+          arr.shift();
+        } else {
+          // k가 뒷쪽
+          while (arr[0] !== n) {
+            const v = arr.pop();
+            arr.unshift(v);
+            count += 1;
+          }
+          arr.shift();
+        }
       }
     }
   }
-
   return count;
 }
 
