@@ -1,54 +1,54 @@
 const fs = require('fs');
-const input = fs.readFileSync(0, 'utf8').trim();
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
 function solution(input) {
-  const lines = input.split('\n');
-  const [n, m] = lines[0].split(' ').map(Number);
-  const arr = lines.slice(1, 1 + m).map(s => s.split(' ').map(Number));
+  const parseInput = input.split(`\n`);
+  const [N, M] = parseInput[0].split(' ').map(Number);
+  const nums = parseInput.slice(1).map(a => a.split(' ').map(Number));
 
-  const graph = new Map();
-  const costs = {};
-  const prev = {};
+  const map = new Map();
 
-  for (let i = 1; i <= n; i++) graph.set(i, []);
-
-  for (const [u, v, w] of arr) {
-    graph.get(u).push([v, w]);
+  for (let i = 0; i < nums.length; i++) {
+    const [n, c, v] = nums[i];
+    if (!map.has(n)) map.set(n, []);
+    map.get(n).push([c, v]);
   }
 
-  for (let i = 1; i <= n; i++) {
-    costs[i] = Infinity;
-    prev[i] = null;
-  }
-  costs[1] = 0;
+  const dist = new Array(N + 1).fill(Infinity);
+  dist[1] = 0;
 
-  for (let i = 0; i < n - 1; i++) {
+  for (let i = 1; i <= N - 1; i++) {
     let updated = false;
-    for (const [node, neighbors] of graph) {
-      if (costs[node] === Infinity) continue; 
-      for (const [neighbor, w] of neighbors) {
-        if (costs[node] + w < costs[neighbor]) {
-          costs[neighbor] = costs[node] + w;
-          prev[neighbor] = node;
+
+    for (let [key, neighbors] of map) {
+      if (dist[key] == Infinity) {
+        continue;
+      }
+
+      for (let [neighbor, count] of neighbors) {
+        if (dist[key] + count < dist[neighbor]) {
+          dist[neighbor] = dist[key] + count;
           updated = true;
         }
       }
     }
-    if (!updated) break; 
+    if (!updated) {
+      break;
+    }
   }
 
-  for (const [node, neighbors] of graph) {
-    if (costs[node] === Infinity) continue;
-    for (const [neighbor, w] of neighbors) {
-      if (costs[node] + w < costs[neighbor]) {
+  for (const [node, neighbors] of map) {
+    if (dist[node] == Infinity) continue;
+    for (let [neighbor, w] of neighbors) {
+      if (dist[neighbor] > dist[node] + w) {
         return '-1';
       }
     }
   }
 
-  const out = [];
-  for (let i = 2; i <= n; i++) out.push(costs[i] === Infinity ? -1 : costs[i]);
-  return out.join('\n');
+  const result = dist.slice(2).map(v => (v === Infinity ? -1 : v));
+  return result.join('\n');
 }
 
 console.log(solution(input));
