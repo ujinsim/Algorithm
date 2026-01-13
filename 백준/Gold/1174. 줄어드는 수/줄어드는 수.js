@@ -1,26 +1,29 @@
 const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().trim();
-const N = parseInt(input);
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
-const result = [];
-const digits = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
+function solution(input) {
+  const nums = Array.from({ length: 10 }, (a, b) => b);
+  const result = [];
 
-function findDecreasingNumbers(index, current) {
-  if (current.length > 0) {
-    result.push(Number(current));
+  function findDecrease(currNumber, lastDigit) {
+    result.push(currNumber);
+
+    for (let i = 0; i < lastDigit; i++) {
+      const nextNumber = currNumber * 10 + i;
+      findDecrease(nextNumber, i);
+    }
   }
 
-  for (let i = index; i < 10; i++) {
-    findDecreasingNumbers(i + 1, current + digits[i]);
+  for (let i = 0; i <= 9; i++) {
+    findDecrease(i, i);
   }
+
+  result.sort((a, b) => a - b);
+
+  const index = Number(input) - 1;
+  if (index >= result.length) return -1;
+  return result[index];
 }
 
-findDecreasingNumbers(0, '');
-
-result.sort((a, b) => a - b);
-
-if (N > result.length) {
-  console.log(-1);
-} else {
-  console.log(result[N - 1]);
-}
+console.log(solution(input));
