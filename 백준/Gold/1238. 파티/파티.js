@@ -9,33 +9,33 @@ class MinHeap {
 
   push(v) {
     this.h.push(v);
-    let curr = this.h.length - 1;
+    let cur = this.h.length - 1;
 
-    while (curr > 0) {
-      let p = Math.floor((curr - 1) / 2);
-      if (this.h[p][0] < this.h[curr][0]) break;
-      [this.h[p], this.h[curr]] = [this.h[curr], this.h[p]];
-      curr = p;
+    while (cur > 0) {
+      let p = Math.floor((cur - 1) / 2);
+      if (this.h[p][0] <= this.h[cur][0]) break;
+      [this.h[p], this.h[cur]] = [this.h[cur], this.h[p]];
+      cur = p;
     }
   }
 
   pop() {
-    if (this.h.length === 0) return null;
-    if (this.h.length === 1) return this.h.pop();
+    if (this.h.length == 0) return -1;
+    if (this.h.length == 1) return this.h.pop();
 
-    const rv = this.h[0];
+    let rv = this.h[0];
     this.h[0] = this.h.pop();
-    let curr = 0;
 
-    while (curr * 2 + 1 < this.h.length) {
-      let l = curr * 2 + 1;
-      let r = curr * 2 + 2;
+    let cur = 0;
+
+    while (cur * 2 + 1 < this.h.length) {
+      let l = cur * 2 + 1;
+      let r = cur * 2 + 2;
       let s = l;
-
       if (r < this.h.length && this.h[r][0] < this.h[l][0]) s = r;
-      if (this.h[curr][0] < this.h[s][0]) break;
-      [this.h[s], this.h[curr]] = [this.h[curr], this.h[s]];
-      curr = s;
+      if (this.h[s][0] >= this.h[cur][0]) break;
+      [this.h[s], this.h[cur]] = [this.h[cur], this.h[s]];
+      cur = s;
     }
     return rv;
   }
@@ -47,56 +47,56 @@ function solution(input) {
   const [N, M, X] = parseInput[0].split(' ').map(Number);
   const nums = parseInput.slice(1).map(a => a.split(' ').map(Number));
 
-  const tree1 = new Map();
-  const tree2 = new Map();
+  const map1 = new Map();
+  const map2 = new Map();
 
   for (let i = 0; i < nums.length; i++) {
-    const [n, v, c] = nums[i];
+    const [s, e, t] = nums[i];
+    if (!map1.has(s)) map1.set(s, []);
+    map1.get(s).push([e, t]);
 
-    if (!tree1.has(n)) tree1.set(n, []);
-    tree1.get(n).push([v, c]);
-
-    if (!tree2.has(v)) tree2.set(v, []);
-    tree2.get(v).push([n, c]);
+    if (!map2.has(e)) map2.set(e, []);
+    map2.get(e).push([s, t]);
   }
 
-  function maxTime(tree) {
+  function dak(map) {
     const dist = new Array(N + 1).fill(Infinity);
-    const pd = new MinHeap();
     dist[X] = 0;
+
+    const pd = new MinHeap();
     pd.push([0, X]);
 
-    while (pd.h.length > 0) {
+    while (pd.h.length) {
       const [count, node] = pd.pop();
 
       if (dist[node] < count) continue;
 
-      const neighbors = tree.get(node) || [];
+      const neighbors = map.get(node) || [];
 
-      for (let [nextNode, nextCost] of neighbors) {
-        if (dist[nextNode] > count + nextCost) {
-          dist[nextNode] = count + nextCost;
-          pd.push([dist[nextNode], nextNode]);
+      for (let [neighbor, nextW] of neighbors) {
+        if (nextW + count < dist[neighbor]) {
+          dist[neighbor] = nextW + count;
+          pd.push([nextW + count, neighbor]);
         }
       }
     }
-
     return dist;
   }
 
-  const result1 = maxTime(tree1);
-  const result2 = maxTime(tree2);
+  const dist1 = dak(map1);
+  const dist2 = dak(map2);
 
-  let maxDistance = 0;
+  let result = 0;
 
   for (let i = 1; i <= N; i++) {
-    const sum = result1[i] + result2[i];
-    if (sum !== Infinity) {
-      maxDistance = Math.max(maxDistance, sum);
+    const max = dist1[i] + dist2[i];
+
+    if (max !== Infinity && max > result) {
+      result = max;
     }
   }
 
-  return maxDistance;
+  return result;
 }
 
 console.log(solution(input));
