@@ -5,14 +5,14 @@ const input = fs.readFileSync(filePath).toString().trim();
 function solution(input) {
   const parseInput = input.split(`\n`);
   const [N, M] = parseInput[0].split(' ').map(Number);
-  const nums = parseInput.slice(1).map(a => a.split(' ').map(Number));
+  const nodes = parseInput.slice(1).map(a => a.split(' ').map(Number));
 
   const map = new Map();
 
-  for (let i = 0; i < nums.length; i++) {
-    const [n, c, v] = nums[i];
+  for (let i = 0; i < nodes.length; i++) {
+    const [n, v, c] = nodes[i];
     if (!map.has(n)) map.set(n, []);
-    map.get(n).push([c, v]);
+    map.get(n).push([v, c]);
   }
 
   const dist = new Array(N + 1).fill(Infinity);
@@ -27,8 +27,8 @@ function solution(input) {
       }
 
       for (let [neighbor, count] of neighbors) {
-        if (dist[key] + count < dist[neighbor]) {
-          dist[neighbor] = dist[key] + count;
+        if (dist[neighbor] > count + dist[key]) {
+          dist[neighbor] = count + dist[key];
           updated = true;
         }
       }
@@ -38,16 +38,16 @@ function solution(input) {
     }
   }
 
-  for (const [node, neighbors] of map) {
-    if (dist[node] == Infinity) continue;
-    for (let [neighbor, w] of neighbors) {
-      if (dist[neighbor] > dist[node] + w) {
+  for (let [key, neighbors] of map) {
+    if (dist[key] == Infinity) continue;
+    for (let [neighbor, count] of neighbors) {
+      if (dist[neighbor] > count + dist[key]) {
         return '-1';
       }
     }
   }
-
   const result = dist.slice(2).map(v => (v === Infinity ? -1 : v));
+
   return result.join('\n');
 }
 
