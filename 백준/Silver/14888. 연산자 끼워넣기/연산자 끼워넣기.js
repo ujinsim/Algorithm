@@ -1,76 +1,40 @@
 const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
-const input = fs.readFileSync(filePath).toString().trim();
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
 
 function solution(input) {
-  const parseInput = input.split(`\n`);
-  const N = Number(parseInput[0]);
-  const nums = parseInput[1].split(' ').map(Number);
-  const operatorIdx = parseInput[2].split(' ').map(Number);
+  const N = Number(input[0]);
+  const nums = input[1].split(' ').map(Number);
+  const ops = input[2].split(' ').map(Number);
 
-  const dist = [];
-  const visited = new Array(N + 1).fill(false);
+  let max = -Infinity;
+  let min = Infinity;
 
-  let minResult = Infinity;
-  let maxResult = -Infinity;
+  function dfs(current, idx) {
+    if (idx === N) {
+      max = Math.max(max, current);
+      min = Math.min(min, current);
+      return;
+    }
 
-  function backtrack(start, depth) {
-    if (dist.length == 2 * N - 1) {
-      const resultArr = dist.join(' ').split(' ').map(Number);
+    for (let i = 0; i < 4; i++) {
+      if (ops[i] > 0) {
+        ops[i]--;
+        let next;
+        if (i === 0) next = current + nums[idx];
+        else if (i === 1) next = current - nums[idx];
+        else if (i === 2) next = current * nums[idx];
+        else next = Math.trunc(current / nums[idx]);
 
-      let result = resultArr[0];
-
-      for (let i = 1; i < resultArr.length; i += 2) {
-        const opr = resultArr[i];
-        const num = resultArr[i + 1];
-
-        if (opr == 0) {
-          result += num;
-        } else if (opr == 1) {
-          result -= num;
-        } else if (opr == 2) {
-          result *= num;
-        } else {
-          result = Math.trunc(result / num);
-        }
-      }
-
-      if (result > maxResult) {
-        maxResult = result;
-      }
-      if (result < minResult) {
-        minResult = result;
-      }
-    } else {
-      if (depth % 2 == 1) {
-        for (let i = 0; i < operatorIdx.length; i++) {
-          if (operatorIdx[i] > 0) {
-            operatorIdx[i] -= 1;
-            dist.push(i);
-            backtrack(start, depth + 1);
-            dist.pop();
-            operatorIdx[i] += 1;
-          }
-        }
-      }
-      if (depth % 2 == 0) {
-        for (let i = start; i < nums.length; i++) {
-          if (!visited[i]) {
-            const v = nums[i];
-            visited[i] = true;
-            dist.push(v);
-            backtrack(i + 1, depth + 1);
-            dist.pop();
-            visited[i] = false;
-          }
-        }
+        dfs(next, idx + 1);
+        ops[i]++;
       }
     }
   }
 
-  backtrack(0, 0);
+  dfs(nums[0], 1);
 
-  return maxResult + `\n` + minResult;
+  return `${max === 0 ? 0 : max}\n${min === 0 ? 0 : min}`;
 }
 
 console.log(solution(input));
