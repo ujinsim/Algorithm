@@ -4,41 +4,44 @@ const input = fs.readFileSync(filePath).toString().trim();
 
 function solution(input) {
   const parseInput = input.split(`\n`);
-  const words = parseInput.slice(1);
-  const result = [];
+  const N = Number(parseInput[0]);
+  const chars = parseInput.slice(1);
+  const results = [];
 
-  for (let i = 0; i < words.length; i++) {
-    const word = words[i].split('').sort();
-    const n = word.length;
+  for (let i = 0; i < N; i++) {
+    const char = chars[i];
+    const sortedChar = char.split('').sort();
 
-    const resultSet = new Set();
-    const visited = new Array(n + 1).fill(false);
+    // 같은 문자는 앞에서 부터 쓰기
+
     const dist = [];
+    const result = [];
+    const visited = new Array(sortedChar.length).fill(false);
 
-    function backtrack(depth) {
-      if (depth === n) {
-        resultSet.add(dist.join(''));
+    function bactrack(depth) {
+      if (depth == char.length) {
+        result.push(dist.join(''));
         return;
       }
 
-      for (let j = 0; j < n; j++) {
-        if (visited[j]) continue;
-
-        if (j > 0 && word[j] === word[j - 1] && !visited[j - 1]) continue;
-
-        visited[j] = true;
-        dist.push(word[j]);
-        backtrack(depth + 1);
-        dist.pop();
-        visited[j] = false;
+      for (let i = 0; i < sortedChar.length; i++) {
+        if (!visited[i]) {
+          if (i > 0 && sortedChar[i] === sortedChar[i - 1] && !visited[i - 1])
+            continue;
+          visited[i] = true;
+          dist.push(sortedChar[i]);
+          bactrack(depth + 1);
+          dist.pop();
+          visited[i] = false;
+        }
       }
     }
 
-    backtrack(0);
-    result.push(Array.from(resultSet));
+    bactrack(0);
+    results.push(result.join('\n'));
   }
 
-  return result.map(a => a.join('\n')).join('\n');
+  return results.join(`\n`);
 }
 
 console.log(solution(input));
