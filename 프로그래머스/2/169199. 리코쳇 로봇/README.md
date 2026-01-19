@@ -1,10 +1,10 @@
 # [level 2] 리코쳇 로봇 - 169199 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/169199?gad_source=1&gad_campaignid=22356298761&gbraid=0AAAAAC_c4nDej772wN2qnBX_9svpWgNC-&gclid=Cj0KCQiAprLLBhCMARIsAEDhdPeXPeBFD0AGgcsFl-LapZFV0Si_BHBcUkEcVGMNPCBzaM1fQd8eerwaAhfbEALw_wcB) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/169199?gad_source=1&gad_campaignid=22356298761&gbraid=0AAAAAC_c4nBl6BvP1MzMebrtfFvF-gagP&gclid=Cj0KCQiAprLLBhCMARIsAEDhdPdQ_TuzN-Ob33LsDE_Q8fNy2W2jk35gHpQtyuiCoL7zSys82UbXu5YaAooaEALw_wcB) 
 
 ### 성능 요약
 
-메모리: 37.3 MB, 시간: 8.84 ms
+메모리: 37.2 MB, 시간: 8.35 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 01월 19일 12:17:35
+2026년 01월 19일 15:46:24
 
 ### 문제 설명
 

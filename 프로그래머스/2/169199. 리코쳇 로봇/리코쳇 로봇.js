@@ -20,39 +20,39 @@ function solution(board) {
             }
         }
     }
-    
-    let dir = 0
                
-    const dx = [-1, 1, 0, 0];
-    const dy = [0, 0, -1, 1];
+    const dx = [0, 1, 0, -1];
+    const dy = [1, 0, -1, 0];
 
     while(queue.length){
         const [x,y,count] = queue.shift()
         
-        if(x==targetX && y == targetY){
+        if(x == targetX && y == targetY){
             return count
         }
         
         for(let i=0; i<4; i++){
-            let nx = x
-            let ny = y 
+            let nx = x;
+            let ny = y;
+            // 하나를 잡고 미끄러질 때까지 
             
             while(true){
-                const nextX = nx + dx[i]
-                const nextY = ny + dy[i]
+                let nextX = nx + dx[i]
+                let nextY = ny + dy[i]
                 
-                if(nextX < 0 || nextX >= N || nextY < 0 || nextY >= M || map[nextX][nextY] === 'D'){
+                if(nextX < 0 || nextX >= N || nextY <0 || nextY >= M || map[nextX][nextY] == 'D' ){
                     break
                 }
+                
                 nx = nextX
                 ny = nextY
             }
-           if (!visited[nx][ny]) {
-            visited[nx][ny] = true;
-            queue.push([nx, ny, count + 1]);
-        }
+            
+            if(!visited[nx][ny]){
+                visited[nx][ny] = true
+                queue.push([nx,ny,count+1])
+            }
         }
     }
-    
     return -1 
 }
