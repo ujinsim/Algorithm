@@ -1,11 +1,7 @@
-select max_data.year, (max_data.size-e.size_of_colony) as year_dev,
-    e.id
-from ecoli_data e,  
-    (select year(differentiation_date) as 'year',
-    max(size_of_colony) as 'size'
-    from ecoli_data
-    group by year(differentiation_date)) max_data
-where year(differentiation_date) = max_data.year
-order by max_data.year asc, (max_data.size-e.size_of_colony) asc
-
+select max.year, (max.max_size - ecoli_data.size_of_colony) as 'YEAR_DEV' , ecoli_data.id
+from ecoli_data , (select year(DIFFERENTIATION_DATE) as 'year', max(size_of_colony) as 'max_size'
+from ecoli_data 
+group by year(DIFFERENTIATION_DATE)) max
+where max.year = year(DIFFERENTIATION_DATE)
+order by max.year asc , YEAR_DEV asc
 
