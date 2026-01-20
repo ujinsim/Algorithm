@@ -1,19 +1,23 @@
-let input = require('fs').readFileSync(0,{encoding:"utf-8"}).split("\n").map(Number);
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim();
 
-const N = input.shift();
-let answer = -1;
+function solution(input) {
+  const n = Number(input);
 
-let fivePack = Math.floor(N / 5);
+  let result = -1;
 
-while (fivePack >= 0) {
-  let remaining = N - fivePack * 5;
+  for (let i = Math.floor(n / 5); i >= 0; i--) {
+    let left = input - i * 5;
 
-  if (remaining % 3 === 0) {
-    answer = remaining / 3 + fivePack;
-    break;
-  } else {
-    fivePack -= 1;
+    if (left % 3 === 0) {
+      let j = left / 3;
+      result = i + j;
+      break;
+    }
   }
+
+  return result;
 }
 
-console.log(answer);
+console.log(solution(input));
