@@ -8,14 +8,17 @@ function solution(input) {
   const nums = lines[1].split(' ').map(Number);
   const dp = [...nums];
 
-  //돌면서 최근 나보다 작으ㅡㄴ거의 DP에 더하기 없으면 자기 자신
-
   for (let i = 1; i < N; i++) {
-    for (let j = 0; j < i; j++) {
-      // 나보다 작은 경우
+    let max = 0;
+    for (let j = i - 1; j >= 0; j--) {
       if (nums[j] < nums[i]) {
-        dp[i] = Math.max(dp[i], dp[j] + nums[i]);
+        max = Math.max(dp[j] + nums[i], max);
       }
+    }
+    if (max == 0) {
+      dp[i] = nums[i];
+    } else {
+      dp[i] = max;
     }
   }
 
