@@ -3,8 +3,6 @@ const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 const input = fs.readFileSync(filePath).toString().trim();
 
 function solution(input) {
-  //  호석이가 정보들을 구매하는 데에 쓴 돈의 총합을 구하자.
-
   const parseInput = input.split(`\n`);
   const N = Number(parseInput[0]);
   const lists = parseInput.slice(1);
@@ -17,23 +15,25 @@ function solution(input) {
     const n = Number(parseList[0]);
     const name = parseList[1];
     const num = Number(parseList[2]);
+    const nums = parseList.slice(3).map(Number);
 
     if (n == 1) {
       if (!map.has(name)) map.set(name, []);
-      const nums = parseList.slice(3).map(Number);
       map.get(name).push(...nums);
     }
-
     if (n == 2) {
-      const costs = map.get(name);
-      if (!costs || costs.length === 0) continue;
+      let candidate = map.get(name);
 
-      costs.sort((a, b) => b - a);
+      if (!candidate || candidate.length == 0) continue;
 
-      const sold = costs.splice(0, num);
+      candidate.sort((a, b) => b - a);
+
+      const sold = candidate.slice(0, num);
+
       for (let cost of sold) {
         result += cost;
       }
+      map.set(name, candidate.slice(num));
     }
   }
 
