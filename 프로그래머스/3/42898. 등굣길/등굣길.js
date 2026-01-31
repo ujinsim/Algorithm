@@ -1,31 +1,35 @@
 function solution(m, n, puddles) {
-   
-    const MOD = 1000000007;
-    const arr = Array.from({length: n}, () => new Array(m).fill(0));
-
-    const isPuddle = new Set();
-    for (const [x, y] of puddles) {
-        isPuddle.add(`${y - 1},${x - 1}`);
-    }
-
-    for (let i = 0; i < n; i++) { 
-        for (let j = 0; j < m; j++) { 
-            
-            if (isPuddle.has(`${i},${j}`)) {
-                continue; 
-            }
-
-            if (i === 0 && j === 0) {
-                arr[i][j] = 1;
-                continue;
-            }
-
-            const up = (i > 0) ? arr[i - 1][j] : 0;
-            const left = (j > 0) ? arr[i][j - 1] : 0;
-
-            arr[i][j] = (up + left) % MOD;
-        }
+   const mod = 1000000007
+    
+    //최단경로의 개수
+    
+    const puddleSet = new Set()
+    const dp = Array.from({length:n}, ()=> new Array(m).fill(0))
+    
+    dp[0][0] = 1
+    
+    for(let i=0; i<puddles.length; i++){
+        const [x,y] = puddles[i]
+        dp[y - 1][x - 1] = -1;
     }
     
-    return arr[n - 1][m - 1];
+    //오른쪽과 아래쪽으로만 움직여 
+    
+    for(let i=0; i<n; i++){
+        for(let j=0; j<m; j++){
+            if (i === 0 && j === 0) continue;
+            
+            if(dp[i][j] == -1){
+                dp[i][j] = 0
+                continue
+            }
+            
+            let fromTop = i > 0 ? dp[i - 1][j] : 0;
+            let fromLeft = j > 0 ? dp[i][j - 1] : 0;
+
+            dp[i][j] = (fromTop + fromLeft) % mod;
+        }
+    }
+
+    return dp[n-1][m-1]
 }
