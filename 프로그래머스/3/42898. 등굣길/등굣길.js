@@ -17,19 +17,20 @@ function solution(m, n, puddles) {
     
     for(let i=0; i<n; i++){
         for(let j=0; j<m; j++){
-            if (i === 0 && j === 0) continue;
-            
-            if(dp[i][j] == -1){
-                dp[i][j] = 0
-                continue
+         if (dp[i][j] === -1) {
+                dp[i][j] = 0; 
+                continue;
             }
             
-            let fromTop = i > 0 ? dp[i - 1][j] : 0;
-            let fromLeft = j > 0 ? dp[i][j - 1] : 0;
-
-            dp[i][j] = (fromTop + fromLeft) % mod;
+             
+             if (j > 0) {
+                dp[i][j] = (dp[i][j] + dp[i][j - 1]) % mod;
+            }
+            if (i > 0) {
+                dp[i][j] = (dp[i][j] + dp[i - 1][j]) % mod;
+            }
         }
     }
 
-    return dp[n-1][m-1]
+    return dp[n-1][m-1]%mod
 }
