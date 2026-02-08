@@ -1,17 +1,30 @@
 function solution(people, limit) {
-    people.sort((a, b) => a - b); 
+   //구명보트 개수의 최솟값
     
-    let left = 0;
-    let right = people.length - 1;
-    let result = 0;
+    people.sort((a,b)=> a-b)
     
-    while (left <= right) {
-        if (people[left] + people[right] <= limit) {
-            left++; 
+    let low = 0
+    let high = people.length-1
+    let count = 0
+    
+    // 큰거 더하기 작은거 ? 
+    
+    while(low <=high){
+        count ++
+        let curW = 0
+        
+        if(people[high] + curW <= limit){
+            curW += people[high]
+            high -=1
         }
-        right--;   
-        result++;
+        
+        if(people[low] + curW <= limit){
+            curW += people[low]
+            low +=1
+        }
+    
     }
     
-    return result;
+    return count
+    
 }
