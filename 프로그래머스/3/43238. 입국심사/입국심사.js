@@ -1,25 +1,30 @@
 function solution(n, times) {
-    times.sort((a,b)=> a-b)
-    let left = 1
-    let right = times[times.length-1] * n
-    // 시간이 최소인데 최대의 명을 쳐내야댐 
-    while(left<=right){
-        const mid = Math.floor((left+right)/2) // n분
-        let sum = 0
+    // 특정 입국 심사시간이 됐을때 반환하기 
+    
+    let low = 0
+    let high = Math.max(...times) * n
+    let result = 0
+    
+    while(low <= high){
+        let mid = Math.floor((low+high)/2)
+        let count = 0
+    
         
-        // 시간 구하기 
-        for(let t of times){
-            // n분이 주어졌을때 각 심사위원이 쳐낼수있는 최대 사람 
-            sum += Math.floor(mid/t)
+        for(let i=0; i<times.length; i++){
+            const time = times[i]
+            count += Math.floor((mid / time))
         }
         
-        if(sum < n){
-            left = mid+1
+        
+        if(count >= n){
+            high = mid-1
+            result = mid
         }
         else {
-            right = mid-1
+            low = mid+1
         }
     }
     
-    return left
+    return result
+    
 }
