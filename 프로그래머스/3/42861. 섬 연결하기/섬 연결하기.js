@@ -1,40 +1,39 @@
 function solution(n, costs) {
-    const existArrs = [0];
-    let cost = 0;
-
-    function nextValue(candidates) {
-        if (candidates.length === 0) return null;
-        let min = candidates[0];
-        for (const i of candidates) {
-            if (i[2] < min[2]) {
-                min = i;
-            }
-        }
-        return min;
+    
+    costs.sort((a,b)=> a[2]-b[2])
+    
+    const p = Array.from({length:n}, (_,i)=> i)
+    
+    let cost = 0
+    
+    function find(a){
+        if(p[a] == a){
+           return a
+        }   
+        return p[a] = find(p[a])
     }
-
-    while (existArrs.length < n) {
-        const candidates = [];
-
-        for (let i = 0; i < costs.length; i++) {
-            const [a, b, c] = costs[i];
-
-            if (
-                (existArrs.includes(a) && !existArrs.includes(b)) ||
-                (existArrs.includes(b) && !existArrs.includes(a))
-            ) {
-                candidates.push([a, b, c]);
-            }
+    
+    function union(a,b,c){
+        const rootA = find(a)
+        const rootB = find(b)
+        
+        if(rootA !== rootB) {
+            p[rootA] = rootB
+            cost+=c
+            return true
         }
-
-        const next = nextValue(candidates);
-
-        if (next) {
-            cost += next[2];
-            if (!existArrs.includes(next[0])) existArrs.push(next[0]);
-            if (!existArrs.includes(next[1])) existArrs.push(next[1]);
-        }
+        
+        return false
     }
-
-    return cost;
+   
+    
+    for(let [n,v,c] of costs){
+            union(n,v,c)
+    }
+    
+    return cost
+    
+    
+    
 }
+
