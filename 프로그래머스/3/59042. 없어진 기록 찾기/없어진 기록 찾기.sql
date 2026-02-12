@@ -1,3 +1,3 @@
-SELECT ANIMAL_ID, name
-FROM ANIMAL_OUTS
-WHERE ANIMAL_ID NOT IN (SELECT ANIMAL_ID FROM ANIMAL_INS);
+select animal_id, name
+from ANIMAL_OUTS
+where animal_id not in (select animal_id from ANIMAL_INS)
