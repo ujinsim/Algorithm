@@ -1,4 +1,3 @@
-select animal_type, 
-        (case when name is null then 'No name' 
-        else name end) as name  , sex_upon_intake
-from animal_ins 
+select ANIMAL_TYPE, ifnull(NAME,'No name') as name, SEX_UPON_INTAKE
+from ANIMAL_INS
+order by ANIMAL_ID
