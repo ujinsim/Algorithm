@@ -21,33 +21,36 @@ function solution(input) {
     tree.get(child).push(parent);
   }
 
-  let answer = 0;
+  let hasFour = false;
 
-  function dfs(node, depth) {
-    if (answer === 1) return;
-
+  function backtrack(curr, depth) {
     if (depth == 4) {
-      answer = 1;
+      hasFour = true;
       return;
     }
 
-    visited[node] = true;
+    const neighbors = tree.get(curr) || [];
 
-    const neighbors = tree.get(node) || [];
-
-    for (let key of neighbors) {
-      if (!visited[key]) {
-        dfs(key, depth + 1);
+    for (let node of neighbors) {
+      if (!visited[node]) {
+        visited[node] = true;
+        backtrack(node, depth + 1);
+        visited[node] = false;
       }
     }
-    visited[node] = false;
-  }
-  for (let i = 0; i < N; i++) {
-    dfs(i, 0);
-    if (answer === 1) break;
   }
 
-  return answer;
+  for (let [key, neighbors] of tree) {
+    visited[key] = true;
+    backtrack(key, 0);
+
+    if (hasFour) {
+      return 1;
+    }
+    visited[key] = false;
+  }
+
+  return 0;
 }
 
 console.log(solution(input));
