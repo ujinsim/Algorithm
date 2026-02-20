@@ -13,7 +13,7 @@ function solution(m, n, puddles) {
         dp[y - 1][x - 1] = -1;
     }
     
-    //오른쪽과 아래쪽으로만 움직여 
+    //오른쪽과 아래쪽으로만 움직여
     
     for(let i=0; i<n; i++){
         for(let j=0; j<m; j++){
@@ -21,13 +21,12 @@ function solution(m, n, puddles) {
                 dp[i][j] = 0; 
                 continue;
             }
-            
              
              if (j > 0) {
-                dp[i][j] = (dp[i][j] + dp[i][j - 1]) % mod;
+                dp[i][j] += (dp[i][j - 1] % mod);
             }
             if (i > 0) {
-                dp[i][j] = (dp[i][j] + dp[i - 1][j]) % mod;
+                dp[i][j] += (dp[i - 1][j] % mod);
             }
         }
     }
