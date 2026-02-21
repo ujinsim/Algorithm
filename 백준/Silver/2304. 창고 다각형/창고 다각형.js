@@ -7,68 +7,57 @@ function solution(input) {
   const n = Number(parseInput[0]);
   const nums = parseInput.slice(1).map(a => a.split(' ').map(Number));
 
-  let maxX = 0;
-  let minX = Infinity;
-
-  let max = 0;
-  let maxArr = [];
-
   nums.sort((a, b) => a[0] - b[0]);
+
+  let start = nums[0][0];
+  let end = nums[nums.length - 1][0];
+
+  const graph = new Array(end + 1).fill(0);
+
+  let maxIndex = [];
+  let max = 0;
+  let count = 0;
 
   for (let i = 0; i < nums.length; i++) {
     const [x, y] = nums[i];
-    if (x > maxX) {
-      maxX = x;
-    }
-    if (x < minX) {
-      minX = x;
-    }
 
-    if (max < y) {
+    if (y > max) {
       max = y;
-      maxArr = [x];
+      maxIndex = [x];
     } else if (max == y) {
-      maxArr.push(x);
-    }
-  }
-  const heights = new Array(maxX + 1).fill(0);
-  nums.forEach(([x, y]) => {
-    heights[x] = y;
-  });
-
-  const resultArr = new Array(maxX).fill(0);
-  let frontIdx = minX;
-  let backIdx = maxX;
-  let maxLeft = 0;
-  let maxRight = 0;
-
-  for (let i = 0; i < maxArr.length; i++) {
-    const mid = maxArr[i];
-    resultArr[mid] = max;
-
-    for (let l = frontIdx; l < mid; l++) {
-      if (heights[l] > maxLeft) {
-        maxLeft = heights[l];
-      }
-      resultArr[l] = maxLeft;
-      frontIdx += 1;
+      maxIndex.push(x);
     }
 
-    for (let r = backIdx; r > mid; r--) {
-      if (heights[r] > maxRight) {
-        maxRight = heights[r];
-      }
-      resultArr[r] = maxRight;
-      backIdx -= 1;
+    graph[x] = y;
+  }
+
+  maxIndex.sort((a, b) => a - b);
+
+  count += (maxIndex[maxIndex.length - 1] - maxIndex[0] + 1) * max;
+
+  let curLeft = 0;
+
+  for (let i = start; i < maxIndex[0]; i++) {
+    const y = graph[i];
+
+    if (y > curLeft) {
+      curLeft = y;
     }
+    count += curLeft;
   }
 
-  let result = 0;
+  let curRight = 0;
 
-  for (let i = 0; i < resultArr.length; i++) {
-    result += resultArr[i];
+  for (let i = end; i > maxIndex[maxIndex.length - 1]; i--) {
+    const y = graph[i];
+
+    if (y > curRight) {
+      curRight = y;
+    }
+    count += curRight;
   }
-  return result;
+
+  return count;
 }
 
 console.log(solution(input));
