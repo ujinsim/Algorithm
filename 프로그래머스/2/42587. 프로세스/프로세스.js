@@ -1,30 +1,23 @@
-function solution(priorities, location) {
-    const queue = priorities.map((priority, index) => {
-        return { priority, index };
-    });
+function solution(priorities, location){
+  const queue = [...priorities]
+  const n = priorities.length
   
-    let count = 0
-    
-    const result = []
-    while(queue.length !==0){
-      
-      const current = queue.shift()
-      const highValue = queue.some(doc=> doc.priority > current.priority)
-      
-      if(highValue){
-        queue.push(current)
+  const sorted = queue.sort((a,b)=> b-a)
+  let maxIdx = 0
+  
+  const visited = new Array(n).fill(false)
+  let visitOrder = 1
+  
+  while(maxIdx <= n-1){
+      for(let i=0; i<n; i++){
+          if(priorities[i] == sorted[maxIdx] && !visited[i]){
+              visited[i] = visitOrder
+              visitOrder +=1
+              maxIdx+=1
+          }
       }
-      else{
-        count ++
-        
-        if(current.index === location){
-          return count 
-        }
-      }
-      
-      
-    }
-  return 
+  }
+  
+  return visited[location]
 }
 
-console.log(solution([2, 1, 3, 2],2))
