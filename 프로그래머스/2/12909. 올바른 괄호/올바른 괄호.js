@@ -1,18 +1,26 @@
 function solution(s){
-   const stack = []
-   
-   for(let i=0; i<s.length; i++){
-       if(s[i] == "("){
-           stack.push(s[i])
-       }
-       if(s[i] == ")"){
-           if(stack[stack.length-1] == "("){
-               stack.pop()
-           }
-           else{
-               stack.push(")")
-           }
-       }
-   }
-   return stack.length > 0 ? false : true
+   // '(' 이면 넣기 
+    
+    // ')' 이면 짝있는지 찾기 없으면 false 
+    
+    const stack = []
+    
+    for(let i=0; i<s.length; i++){
+        const v = s[i]
+        
+        if(v == '('){
+            stack.push('(')
+        }
+        
+        if(v == ')'){
+            if(stack.length > 0){
+                stack.pop()
+            }
+            else {
+                return false
+            }
+        }
+    }
+    
+    return stack.length == 0 ? true : false
 }
