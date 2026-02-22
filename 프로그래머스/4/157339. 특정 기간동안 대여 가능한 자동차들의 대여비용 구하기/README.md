@@ -8,7 +8,7 @@
 
 ### 구분
 
-코딩테스트 연습 > JOIN
+코딩테스트 연습 > JOIN  가입하세요
 
 ### 채점결과
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2026년 01월 22일 13:10:00
+2026년 02월 22일 14:40:28
 
 ### 문제 설명
 
@@ -25,9 +25,9 @@ Empty
 <p><code>CAR_RENTAL_COMPANY_CAR</code> 테이블은 아래와 같은 구조로 되어있으며, <code>CAR_ID</code>, <code>CAR_TYPE</code>, <code>DAILY_FEE</code>, <code>OPTIONS</code> 는 각각 자동차 ID, 자동차 종류, 일일 대여 요금(원), 자동차 옵션 리스트를 나타냅니다.</p>
 <table class="table">
         <thead><tr>
-<th>Column name</th>
-<th>Type</th>
-<th>Nullable</th>
+<th data-imt-p="1">Column name<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">칼럼 이름</font></font></font></th>
+<th data-imt-p="1">Type<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">유형</font></font></font></th>
+<th data-imt-p="1">Nullable<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">눌러블</font></font></font></th>
 </tr>
 </thead>
         <tbody><tr>
@@ -37,7 +37,7 @@ Empty
 </tr>
 <tr>
 <td>CAR_TYPE</td>
-<td>VARCHAR(255)</td>
+<td data-imt-p="1">VARCHAR(255)<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">바르차르(255)</font></font></font></td>
 <td>FALSE</td>
 </tr>
 <tr>
@@ -47,7 +47,7 @@ Empty
 </tr>
 <tr>
 <td>OPTIONS</td>
-<td>VARCHAR(255)</td>
+<td data-imt-p="1">VARCHAR(255)<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">바르차르(255)</font></font></font></td>
 <td>FALSE</td>
 </tr>
 </tbody>
@@ -57,9 +57,9 @@ Empty
 <p><code>CAR_RENTAL_COMPANY_RENTAL_HISTORY</code> 테이블은 아래와 같은 구조로 되어있으며, <code>HISTORY_ID</code>, <code>CAR_ID</code>, <code>START_DATE</code>, <code>END_DATE</code> 는 각각 자동차 대여 기록 ID, 자동차 ID, 대여 시작일, 대여 종료일을 나타냅니다.</p>
 <table class="table">
         <thead><tr>
-<th>Column name</th>
-<th>Type</th>
-<th>Nullable</th>
+<th data-imt-p="1">Column name<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">칼럼 이름</font></font></font></th>
+<th data-imt-p="1">Type<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">유형</font></font></font></th>
+<th data-imt-p="1">Nullable<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">눌러블</font></font></font></th>
 </tr>
 </thead>
         <tbody><tr>
@@ -87,9 +87,9 @@ Empty
 <p><code>CAR_RENTAL_COMPANY_DISCOUNT_PLAN</code> 테이블은 아래와 같은 구조로 되어있으며, <code>PLAN_ID</code>, <code>CAR_TYPE</code>, <code>DURATION_TYPE</code>, <code>DISCOUNT_RATE</code> 는 각각 요금 할인 정책 ID, 자동차 종류, 대여 기간 종류, 할인율(%)을 나타냅니다.</p>
 <table class="table">
         <thead><tr>
-<th>Column name</th>
-<th>Type</th>
-<th>Nullable</th>
+<th data-imt-p="1">Column name<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">칼럼 이름</font></font></font></th>
+<th data-imt-p="1">Type<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">유형</font></font></font></th>
+<th data-imt-p="1">Nullable<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">눌러블</font></font></font></th>
 </tr>
 </thead>
         <tbody><tr>
@@ -99,12 +99,12 @@ Empty
 </tr>
 <tr>
 <td>CAR_TYPE</td>
-<td>VARCHAR(255)</td>
+<td data-imt-p="1">VARCHAR(255)<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">바르차르(255)</font></font></font></td>
 <td>FALSE</td>
 </tr>
 <tr>
 <td>DURATION_TYPE</td>
-<td>VARCHAR(255)</td>
+<td data-imt-p="1">VARCHAR(255)<font class="notranslate immersive-translate-target-wrapper" lang="ko"><font class="notranslate" data-immersive-translate-translation-element-mark="1">&nbsp;&nbsp;</font><font class="notranslate immersive-translate-target-translation-theme-none immersive-translate-target-translation-inline-wrapper-theme-none immersive-translate-target-translation-inline-wrapper" data-immersive-translate-translation-element-mark="1"><font class="notranslate immersive-translate-target-inner immersive-translate-target-translation-theme-none-inner" data-immersive-translate-translation-element-mark="1">바르차르(255)</font></font></font></td>
 <td>FALSE</td>
 </tr>
 <tr>
