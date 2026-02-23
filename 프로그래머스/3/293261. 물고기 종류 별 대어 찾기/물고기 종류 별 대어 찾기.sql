@@ -1,8 +1,10 @@
-select i.id, n.fish_name, i.length
-from fish_info i , fish_name_info n
-where i.fish_type = n.fish_type and (i.fish_type, i.length) in (
-    select fish_type, max(length)
-    from fish_info
-    group by fish_type
-)
+with a as(select fi.id, fni.fish_name, fi.length , rank() over (partition by fi.fish_type order by fi.length desc) as rk
+from fish_info as fi
+join fish_name_info as fni on fni.fish_type = fi.fish_type
+where fi.length is not null)
+
+
+select id, fish_name, length
+from a
+where rk = 1
 order by id 
