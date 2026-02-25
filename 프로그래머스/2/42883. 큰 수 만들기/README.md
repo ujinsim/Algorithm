@@ -1,10 +1,10 @@
 # [level 2] 큰 수 만들기 - 42883 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42883?gad_source=1&gad_campaignid=22499034228&gbraid=0AAAAAC_c4nDZLfv9JQ9f8QLYO5pb19FmX&gclid=Cj0KCQiAtfXMBhDzARIsAJ0jp3AyWXUh_8c9E4-Qz-IcHy3SriQcDFJ7Oq4H7jeYsQHG0NREALQsvVoaAgRzEALw_wcB) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42883) 
 
 ### 성능 요약
 
-메모리: 55.4 MB, 시간: 42.28 ms
+메모리: 51.9 MB, 시간: 192.53 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 02월 24일 21:25:45
+2026년 02월 25일 15:53:26
 
 ### 문제 설명
 
