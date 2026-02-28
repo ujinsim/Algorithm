@@ -1,23 +1,20 @@
 function solution(priorities, location){
-  const queue = [...priorities]
+  const sorted = [...priorities].sort((a,b) => b-a)
   const n = priorities.length
-  
-  const sorted = queue.sort((a,b)=> b-a)
-  let maxIdx = 0
-  
   const visited = new Array(n).fill(false)
-  let visitOrder = 1
+  let curIdx = 0
+  // visited에 방문번호 남기기 
+  // 방문하면 다음거 방문하기 
   
-  while(maxIdx <= n-1){
-      for(let i=0; i<n; i++){
-          if(priorities[i] == sorted[maxIdx] && !visited[i]){
-              visited[i] = visitOrder
-              visitOrder +=1
-              maxIdx+=1
+  while(curIdx < n){
+      for(let i=0; i<priorities.length; i++){
+          if(priorities[i] == sorted[curIdx]){
+              visited[i] = curIdx 
+              curIdx ++
           }
       }
   }
   
-  return visited[location]
+  return visited[location] + 1
 }
 
