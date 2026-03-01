@@ -5,40 +5,35 @@ const input = fs.readFileSync(filePath).toString().trim();
 function solution(input) {
   const parseInput = input.split(`\n`);
   const [R, C] = parseInput[0].split(' ').map(Number);
-  const map = parseInput.slice(1).map(a => a.split(''));
+  const arr = parseInput.slice(1).map(a => a.split(''));
 
-  const dx = [1, 0, -1, 0];
-  const dy = [0, 1, 0, -1];
+  // 불 확장 배열 , 지훈이 이동 배열 만들기
 
   const fireArr = Array.from({ length: R }, () => new Array(C).fill(Infinity));
-  const fireQueue = [];
-  const fireVisited = Array.from({ length: R }, () => new Array(C).fill(false));
+  const jiArr = Array.from({ length: R }, () => new Array(C).fill(-1));
 
-  const jihoonArr = Array.from({ length: R }, () => new Array(C).fill(-1));
-  const jihoonQueue = [];
-  const jihoonVisited = Array.from({ length: R }, () =>
-    new Array(C).fill(false)
-  );
-  let jihoonHead = 0;
+  let fQueue = [];
+  let jQueue = [];
 
   for (let i = 0; i < R; i++) {
     for (let j = 0; j < C; j++) {
-      if (map[i][j] == 'F') {
-        fireArr[i][j] = 0;
-        fireVisited[i][j] = true;
-        fireQueue.push([i, j]);
+      if (arr[i][j] == 'J') {
+        jQueue.push([i, j]);
+        jiArr[i][j] = 0;
       }
-      if (map[i][j] == 'J') {
-        jihoonVisited[i][j] = true;
-        jihoonQueue.push([i, j]);
-        jihoonArr[i][j] = 0;
+
+      if (arr[i][j] == 'F') {
+        fQueue.push([i, j]);
+        fireArr[i][j] = 0;
       }
     }
   }
 
-  let fireHead = 0;
-  while (fireQueue.length > fireHead) {
-    const [x, y] = fireQueue[fireHead++];
+  const dx = [1, 0, -1, 0];
+  const dy = [0, 1, 0, -1];
+
+  while (fQueue.length > 0) {
+    const [x, y] = fQueue.shift();
 
     for (let i = 0; i < 4; i++) {
       const nx = x + dx[i];
@@ -49,38 +44,37 @@ function solution(input) {
         nx < R &&
         ny >= 0 &&
         ny < C &&
-        map[nx][ny] !== '#' &&
-        !fireVisited[nx][ny]
+        fireArr[nx][ny] == Infinity &&
+        arr[nx][ny] !== '#'
       ) {
-        fireVisited[nx][ny] = true;
         fireArr[nx][ny] = fireArr[x][y] + 1;
-        fireQueue.push([nx, ny]);
+        fQueue.push([nx, ny]);
       }
     }
   }
 
-  while (jihoonQueue.length > jihoonHead) {
-    const [x, y] = jihoonQueue[jihoonHead++];
+  while (jQueue.length > 0) {
+    const [x, y] = jQueue.shift();
+
+    if (x === 0 || x === R - 1 || y === 0 || y === C - 1) {
+      return jiArr[x][y] + 1;
+    }
 
     for (let i = 0; i < 4; i++) {
       const nx = x + dx[i];
       const ny = y + dy[i];
 
-      if (nx < 0 || nx >= R || ny < 0 || ny >= C) {
-        return jihoonArr[x][y] + 1;
-      }
-
-      if (nx >= 0 && nx < R && ny >= 0 && ny < C) {
-        if (
-          jihoonArr[x][y] + 1 < fireArr[nx][ny] &&
-          map[nx][ny] !== '#' &&
-          map[nx][ny] !== 'F' &&
-          !jihoonVisited[nx][ny]
-        ) {
-          jihoonVisited[nx][ny] = true;
-          jihoonArr[nx][ny] = jihoonArr[x][y] + 1;
-          jihoonQueue.push([nx, ny]);
-        }
+      if (
+        nx >= 0 &&
+        nx < R &&
+        ny >= 0 &&
+        ny < C &&
+        jiArr[nx][ny] == -1 &&
+        arr[nx][ny] === '.' &&
+        fireArr[nx][ny] > jiArr[x][y] + 1
+      ) {
+        jiArr[nx][ny] = jiArr[x][y] + 1;
+        jQueue.push([nx, ny]);
       }
     }
   }
