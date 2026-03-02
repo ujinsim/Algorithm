@@ -5,44 +5,39 @@ const input = fs.readFileSync(filePath).toString().trim();
 function solution(input) {
   const parseInput = input.split(`\n`);
   const N = Number(parseInput[0]);
-
   const nums = parseInput[1]
     .split(' ')
-    .map(BigInt)
-    .sort((a, b) => (a < b ? -1 : 1));
+    .map(Number)
+    .sort((a, b) => a - b);
+
+  // 0보다 작으면 low올리기
+  // 0보다 크면 high 낮추기
 
   let low = 0;
   let high = N - 1;
 
-  const absBI = val => (val < 0n ? -val : val);
-  let minResult = 2000000001n;
-  let results = [];
+  let resultArr = [];
+  let result = Infinity;
 
   while (low < high) {
     let sum = nums[low] + nums[high];
 
-    if (absBI(minResult) > absBI(sum)) {
-      minResult = sum;
-      results = [nums[low], nums[high]];
-    }
-
-    if (absBI(sum) > 0n) {
-      if (
-        absBI(nums[low + 1] + nums[high]) < absBI(nums[high - 1] + nums[low])
-      ) {
-        low = low + 1;
-      } else {
-        high = high - 1;
+    if (sum >= 0) {
+      if (Math.abs(sum) < result) {
+        result = Math.abs(sum);
+        resultArr = [nums[low], nums[high]];
       }
+      high -= 1;
     } else {
-      break;
+      if (Math.abs(sum) < result) {
+        result = Math.abs(sum);
+        resultArr = [nums[low], nums[high]];
+      }
+      low += 1;
     }
   }
 
-  return results
-    .sort((a, b) => (a < b ? -1 : 1))
-    .map(String)
-    .join(' ');
+  return resultArr.join(' ');
 }
 
 console.log(solution(input));
