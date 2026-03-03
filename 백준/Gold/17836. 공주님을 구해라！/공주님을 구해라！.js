@@ -3,50 +3,53 @@ const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
 const input = fs.readFileSync(filePath).toString().trim();
 
 function solution(input) {
+  // 검없이 가는법 , 검 만나서 최단거리로 가는 법 비교
+
   const parseInput = input.split(`\n`);
   const [N, M, T] = parseInput[0].split(' ').map(Number);
-  const arr = parseInput.slice(1).map(a => a.split(' ').map(Number));
+  const map = parseInput.slice(1).map(a => a.split(' ').map(Number));
 
-  const visited = Array.from({ length: N }, () => new Array(M).fill(false));
-  const queue = [];
+  // 용사 0,0
+  // 공쥬님 n-1, m-1
+  // 검찾았을때, 검안찾았을때
 
-  const dx = [1, -1, 0, 0];
-  const dy = [0, 0, 1, -1];
+  const queue = [[0, 0, 0]];
+  map[0][0] = 1;
+  const dx = [0, 1, 0, -1];
+  const dy = [1, 0, -1, 0];
 
-  queue.push([0, 0, 0]);
-  visited[0][0] = true;
+  let result = Infinity;
+  let swordResult = Infinity;
+  let normalResult = Infinity;
 
-  let gramDist = Infinity;
-
-  while (queue.length) {
+  while (queue.length > 0) {
     const [x, y, count] = queue.shift();
 
     if (x == N - 1 && y == M - 1) {
-      const finalResult = Math.min(count, gramDist);
-      return finalResult <= T ? finalResult : 'Fail';
+      swordResult = Math.min(swordResult, count);
     }
 
     for (let i = 0; i < 4; i++) {
       const nx = x + dx[i];
       const ny = y + dy[i];
 
-      if (nx >= 0 && nx < N && ny >= 0 && ny < M && !visited[nx][ny]) {
-        if (arr[nx][ny] == 0) {
-          visited[nx][ny] = true;
-          queue.push([nx, ny, count + 1]);
-        }
-        if (arr[nx][ny] == 2) {
-          visited[nx][ny] = true;
-          const distance = count + 1 + (N - 1 - nx) + (M - 1 - ny);
-
-          if (distance < gramDist) {
-            gramDist = distance;
-          }
-        }
+      if (nx >= 0 && nx < N && ny >= 0 && ny < M && map[nx][ny] == 0) {
+        map[nx][ny] = 1;
+        queue.push([nx, ny, count + 1]);
+      }
+      if (nx >= 0 && nx < N && ny >= 0 && ny < M && map[nx][ny] == 2) {
+        map[nx][ny] = 1;
+        normalResult = Math.min(
+          normalResult,
+          count + 1 + (N - 1 - nx) + (M - 1 - ny)
+        );
       }
     }
   }
-  return gramDist <= T ? gramDist : 'Fail';
+
+  return Math.min(swordResult, normalResult) <= T
+    ? Math.min(swordResult, normalResult)
+    : 'Fail';
 }
 
 console.log(solution(input));
